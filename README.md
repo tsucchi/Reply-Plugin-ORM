@@ -4,7 +4,7 @@ Reply::Plugin::ORM - Reply + O/R Mapper
 
 # SYNOPSIS
 
-    PERL_REPLY_PLUGIN_OTOGIRI=sandbox reply
+    PERL_REPLY_PLUGIN_ORM=sandbox reply
 
     # .replyrc
     ...

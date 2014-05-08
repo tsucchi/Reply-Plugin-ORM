@@ -13,7 +13,7 @@ my $ORM;
 sub new {
     my ($class, %opts) = @_;
 
-    my $db_name = $ENV{PERL_REPLY_PLUGIN_OTOGIRI};
+    my $db_name = $ENV{PERL_REPLY_PLUGIN_ORM};
     return $class->SUPER::new(%opts) unless defined $db_name;
     
     my $config_path = delete $opts{config}
@@ -37,9 +37,9 @@ sub new {
     *main::Show_methods = sub { return @methods };
     use strict 'refs';
 
-    return $class->SUPER::new(%opts,
-        methods => \@methods,
-    );
+    printf "Connect database : %s (using %s)\n", $db_name, $config->{orm};
+
+    return $class->SUPER::new(%opts, methods => \@methods);
 }    
 
 sub tab_handler {
@@ -90,7 +90,7 @@ Reply::Plugin::ORM - Reply + O/R Mapper
 
 =head1 SYNOPSIS
 
-    PERL_REPLY_PLUGIN_OTOGIRI=sandbox reply
+    PERL_REPLY_PLUGIN_ORM=sandbox reply
 
     # .replyrc
     ...
