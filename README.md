@@ -1,14 +1,28 @@
 # NAME
 
-Reply::Plugin::ORM - It's new $module
+Reply::Plugin::ORM - Reply + O/R Mapper
 
 # SYNOPSIS
 
-    use Reply::Plugin::ORM;
+    PERL_REPLY_PLUGIN_OTOGIRI=sandbox reply
+
+    # .replyrc
+    ...
+    [ORM]
+    config = ~/.reply-plugin-orm
+    plugin_otogiri = DeleteCascade
+
+    # .reply-plugin-orm
+    +{
+        sandbox => {
+            orm          => 'Otogiri',
+            connect_info => ["dbi:SQLite:dbname=...", '', '', { ... }],
+        }
+    }
 
 # DESCRIPTION
 
-Reply::Plugin::ORM is ...
+Reply::Plugin::ORM is Reply's plugin for operation of database using O/R Mapper (Otogiri).
 
 # LICENSE
 

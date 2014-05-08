@@ -1,10 +1,10 @@
 {
-   "abstract" : "It's new $module",
+   "abstract" : "Reply + O/R Mapper",
    "author" : [
       "papix <mail@papix.net>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v0.13.0, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "Minilla/v0.14.1, CPAN::Meta::Converter version 2.140640",
    "license" : [
       "perl_5"
    ],
@@ -37,12 +37,17 @@
          "requires" : {
             "Test::CPAN::Meta" : "0",
             "Test::MinimumVersion::Fast" : "0.04",
+            "Test::PAUSE::Permissions" : "0.04",
             "Test::Pod" : "1.41",
             "Test::Spellunker" : "v0.2.7"
          }
       },
       "runtime" : {
          "requires" : {
+            "List::Compare" : "0",
+            "Module::Load" : "0",
+            "Path::Tiny" : "0",
+            "Reply" : "0",
             "perl" : "5.008005"
          }
       },
@@ -53,5 +58,16 @@
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/papix/Reply-Plugin-ORM/issues"
+      },
+      "homepage" : "https://github.com/papix/Reply-Plugin-ORM",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/papix/Reply-Plugin-ORM.git",
+         "web" : "https://github.com/papix/Reply-Plugin-ORM"
+      }
+   },
    "version" : "0.01"
 }
