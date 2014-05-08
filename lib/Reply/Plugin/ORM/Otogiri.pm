@@ -3,7 +3,6 @@ use strict;
 use warnings;
 
 use Otogiri;
-use Otogiri::Plugin;
 use List::Compare;
 use Path::Tiny;
 
@@ -21,14 +20,14 @@ sub new {
     my ($class, $db_name, $config, %opts) = @_;
 
     eval { require Otogiri };
-    Carp::croak "[Error] Otogiri not found." if $@;
+    Carp::croak "[Error] 'Otogiri' not found." if $@;
 
     if ($opts{otogiri_plugins}) {
         Otogiri->load_plugin($_) for split /,/, $opts{otogiri_plugins};
     } 
     my $orm = Otogiri->new( connect_info => $config->{connect_info} );
 
-    my $list = List::Compare->new([ keys %{DBIx::Otogiri::} ], \@UNNECESSARY_METHODS);
+    my $list = List::Compare->new([ grep { $_ !~ /^_/ } keys %{DBIx::Otogiri::} ], \@UNNECESSARY_METHODS);
     my @methods = map { s/(^.)/uc $1/e; $_ } $list->get_Lonly;
 
     return bless {

@@ -22,7 +22,7 @@ Reply::Plugin::ORM - Reply + O/R Mapper
 
 # DESCRIPTION
 
-Reply::Plugin::ORM is Reply's plugin for operation of database using O/R Mapper (Otogiri).
+Reply::Plugin::ORM is Reply's plugin for operation of database using O/R Mapper (Teng and Otogiri).
 
 # LICENSE
 
