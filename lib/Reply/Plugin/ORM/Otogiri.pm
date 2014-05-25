@@ -3,6 +3,7 @@ use strict;
 use warnings;
 
 use Otogiri;
+use Otogiri::Plugin;
 use List::Compare;
 use Path::Tiny;
 
