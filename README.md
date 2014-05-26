@@ -10,7 +10,7 @@ Reply::Plugin::ORM - Reply + O/R Mapper
     ...
     [ORM]
     config = ~/.reply-plugin-orm
-    plugin_otogiri = DeleteCascade
+    otogiri_plugins = DeleteCascade
 
     # .reply-plugin-orm
     +{
