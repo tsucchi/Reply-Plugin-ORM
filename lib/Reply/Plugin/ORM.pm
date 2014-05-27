@@ -112,10 +112,6 @@ Reply::Plugin::ORM - Reply + O/R Mapper
 Reply::Plugin::ORM is Reply's plugin for operation of database using O/R Mapper.
 In this version, we have support for Otogiri and Teng.
 
-=head1 CONFIGURE
-
-
-
 =head1 METHODS
 
 Using this module, you can use O/R Mapper's method at Reply shell.
@@ -125,7 +121,6 @@ You can call Teng's C<single> method, like this:
     1> Single 'table_name';
 
 If you set loading of O/R Mapper's plugin at config file, method that provided by plugin also can be used at Reply shell same way.
-
 In addition, this module provides two additional methods.
 
 =over 4
@@ -152,6 +147,8 @@ it under the same terms as Perl itself.
 papix E<lt>mail@papix.netE<gt>
 
 =head1 SEE ALSO
+
+L<Reply>
 
 L<Otogiri>
 
