@@ -26,7 +26,7 @@ sub new {
     if ($opts{otogiri_plugins}) {
         Otogiri->load_plugin($_) for split /,/, $opts{otogiri_plugins};
     } 
-    my $orm = Otogiri->new( connect_info => $config->{connect_info} );
+    my $orm = Otogiri->new( %{ $config } );
 
     my $list = List::Compare->new([ grep { $_ !~ /^_/ } keys %{DBIx::Otogiri::} ], \@UNNECESSARY_METHODS);
     my @methods = map { s/(^.)/uc $1/e; $_ } $list->get_Lonly;
