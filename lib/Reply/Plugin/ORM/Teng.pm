@@ -13,9 +13,12 @@ my @UNNECESSARY_METHODS = qw/
 sub new {
     my ($class, $db_name, $config, %opts) = @_;
 
+    eval { require Teng };
+    Carp::croak "[Error] Module 'Teng' not found." if $@;
     eval { require Teng::Schema::Loader };
     Carp::croak "[Error] Module 'Teng::Schema::Loader' not found." if $@;
 
+    load 'Teng';
     load 'Teng::Schema::Loader';
 
     if ($opts{teng_plugins}) {
