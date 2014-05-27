@@ -2,12 +2,12 @@ package Reply::Plugin::ORM;
 use 5.008005;
 use strict;
 use warnings;
+use parent qw/ Reply::Plugin /;
+
+use Module::Load;
+use Path::Tiny;
 
 our $VERSION = "0.01";
-use parent qw/ Reply::Plugin /;
-use Path::Tiny;
-use Module::Load;
-
 my $ORM;
 
 sub new {
@@ -17,13 +17,13 @@ sub new {
     return $class->SUPER::new(%opts) unless defined $db_name;
     
     my $config_path = delete $opts{config}
-        or Carp::croak "[Error] Please set plugin config file at .replyrc";
+        or Carp::croak "[Error] Please set config file's path at .replyrc";
     my $config = $class->_config($db_name, $config_path);
     $class->_config_validate($config);
 
     my $orm_module = "Reply::Plugin::ORM::$config->{orm}";  
     eval "require $orm_module";
-    Carp::croak "[Error] $orm_module not found." if $@;
+    Carp::croak "[Error] Module '$orm_module' not found." if $@;
 
     load $orm_module;
     $ORM = $orm_module->new($db_name => $config, %opts);
@@ -60,18 +60,18 @@ sub _config {
     my ($class, $db_name, $config_path) = @_;
 
     my $config_fullpath = path($config_path);
-    Carp::croak "[Error] Plugin config file not found: $config_fullpath" unless -f $config_fullpath;
+    Carp::croak "[Error] Config file not found: $config_fullpath" unless -f $config_fullpath;
     my $config = do $config_fullpath 
         or Carp::croak "[Error] Failed to load config file: $config_path";
 
+    Carp::croak "[Error] Setting of '$db_name' not found at config file" unless $config->{$db_name};
     return $config->{$db_name}
-        or Carp::croak "[Error] '$db_name' not found";
 }
 
 sub _config_validate {
     my ($class, $config) = @_;
-    Carp::croak "[Error] Please set 'orm' at plugin config file." unless $config->{orm};
-    Carp::croak "[Error] Please set 'connect_info' at plugin config file." unless $config->{connect_info};
+    Carp::croak "[Error] Please set 'orm' at config file." unless $config->{orm};
+    Carp::croak "[Error] Please set 'connect_info' at config file." unless $config->{connect_info};
 }
 
 sub _command {
@@ -90,25 +90,55 @@ Reply::Plugin::ORM - Reply + O/R Mapper
 
 =head1 SYNOPSIS
 
-    PERL_REPLY_PLUGIN_ORM=sandbox reply
-
-    # .replyrc
+    ; .replyrc
     ...
     [ORM]
     config = ~/.reply-plugin-orm
-    otogiri_plugins = DeleteCascade
+    otogiri_plugins = DeleteCascade      ; You can use O/R Mapper plugin (in this case, 'Otogiri::Plugin::DeleteCascade'). 
+    teng_plugins    = Count,SearchJoined ; You can use multiple plugins, like this.
 
-    # .reply-plugin-orm
+    ; .reply-plugin-orm
     +{
         sandbox => {
-            orm          => 'Otogiri',
+            orm          => 'Otogiri', # or 'Teng'
             connect_info => ["dbi:SQLite:dbname=...", '', '', { ... }],
         }
     }
+    
+    $ PERL_REPLY_PLUGIN_ORM=sandbox reply
 
 =head1 DESCRIPTION
 
-Reply::Plugin::ORM is Reply's plugin for operation of database using O/R Mapper (Teng and Otogiri).
+Reply::Plugin::ORM is Reply's plugin for operation of database using O/R Mapper.
+In this version, we have support for Otogiri and Teng.
+
+=head1 CONFIGURE
+
+
+
+=head1 METHODS
+
+Using this module, you can use O/R Mapper's method at Reply shell.
+In order to prevent the redifined of function, these method's initials are upper case. 
+You can call Teng's C<single> method, like this: 
+
+    1> Single 'table_name';
+
+If you set loading of O/R Mapper's plugin at config file, method that provided by plugin also can be used at Reply shell same way.
+
+In addition, this module provides two additional methods.
+
+=over 4
+
+=item * C<Show_methods>
+
+This method outputs a list of methods provided by this module.
+
+=item * C<Show_dbname>
+
+This method outputs the name of database which you are connecting.
+
+=back
 
 =head1 LICENSE
 
@@ -120,6 +150,12 @@ it under the same terms as Perl itself.
 =head1 AUTHOR
 
 papix E<lt>mail@papix.netE<gt>
+
+=head1 SEE ALSO
+
+L<Otogiri>
+
+L<Teng>
 
 =cut
 

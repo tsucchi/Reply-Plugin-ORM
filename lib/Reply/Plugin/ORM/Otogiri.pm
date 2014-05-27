@@ -2,9 +2,8 @@ package Reply::Plugin::ORM::Otogiri;
 use strict;
 use warnings;
 
-use Otogiri;
-use Otogiri::Plugin;
 use List::Compare;
+use Module::Load;
 use Path::Tiny;
 
 my @UNNECESSARY_METHODS = qw/
@@ -21,7 +20,12 @@ sub new {
     my ($class, $db_name, $config, %opts) = @_;
 
     eval { require Otogiri };
-    Carp::croak "[Error] 'Otogiri' not found." if $@;
+    Carp::croak "[Error] Module 'Otogiri' not found." if $@;
+    eval { require Otogiri::Plugin };
+    Carp::croak "[Error] Module 'Otogiri::Plugin' not found." if $@;
+
+    load 'Otogiri'; 
+    load 'Otogiri::Plugin'; 
 
     if ($opts{otogiri_plugins}) {
         Otogiri->load_plugin($_) for split /,/, $opts{otogiri_plugins};

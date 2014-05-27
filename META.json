@@ -69,5 +69,8 @@
          "web" : "https://github.com/papix/Reply-Plugin-ORM"
       }
    },
-   "version" : "0.01"
+   "version" : "0.01",
+   "x_contributors" : [
+      "Takuya Tsuchida <takuya.tsuchida@gmail.com>"
+   ]
 }

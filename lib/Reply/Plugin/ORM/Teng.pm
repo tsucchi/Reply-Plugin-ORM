@@ -2,8 +2,8 @@ package Reply::Plugin::ORM::Teng;
 use strict;
 use warnings;
 
-use Teng::Schema::Loader;
 use List::Compare;
+use Module::Load;
 use Path::Tiny;
 
 my @UNNECESSARY_METHODS = qw/
@@ -13,8 +13,10 @@ my @UNNECESSARY_METHODS = qw/
 sub new {
     my ($class, $db_name, $config, %opts) = @_;
 
-    eval { require Teng };
-    Carp::croak "[Error] 'Teng' not found." if $@;
+    eval { require Teng::Schema::Loader };
+    Carp::croak "[Error] Module 'Teng::Schema::Loader' not found." if $@;
+
+    load 'Teng::Schema::Loader';
 
     if ($opts{teng_plugins}) {
         Teng->load_plugin($_) for split /,/, $opts{teng_plugins};
