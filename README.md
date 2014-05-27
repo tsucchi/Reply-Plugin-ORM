@@ -29,12 +29,13 @@ In this version, we have support for Otogiri and Teng.
 # METHODS
 
 Using this module, you can use O/R Mapper's method at Reply shell.
-In order to prevent the redifined of function, these method's initials are upper case. 
+If you set loading of O/R Mapper's plugin in config file, you can use method that provided by plugin on shell.
+
+In order to prevent the redefined of function, these method's initials are upper case. 
 You can call Teng's `single` method, like this: 
 
     1> Single 'table_name';
 
-If you set loading of O/R Mapper's plugin at config file, method that provided by plugin also can be used at Reply shell same way.
 In addition, this module provides two additional methods.
 
 - `Show_methods`
