@@ -32,13 +32,17 @@ sub new {
     } 
     my $orm = Otogiri->new( %{ $config } );
 
+    my $self = bless { orm => $orm }, $class;
+    my @methods = $self->methods();
+    $self->{methods} = \@methods;
+    return $self;
+}
+
+sub methods {
+    my ($self) = @_;
     my $list = List::Compare->new([ grep { $_ !~ /^_/ } keys %{DBIx::Otogiri::} ], \@UNNECESSARY_METHODS);
     my @methods = map { s/(^.)/uc $1/e; $_ } $list->get_Lonly;
-
-    return bless {
-        orm     => $orm,
-        methods => \@methods,
-    }, $class;
+    return @methods;
 }
 
 1;

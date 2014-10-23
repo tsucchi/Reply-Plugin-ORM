@@ -34,7 +34,8 @@ sub new {
         *{"main::$method"} = sub { _command(lc $method, @_ ) };
     }
     *main::Show_dbname  = sub { return $db_name };
-    *main::Show_methods = sub { return @methods };
+    *main::Show_methods = \&methods;
+    *main::Rehash       = \&rehash;
     use strict 'refs';
 
     printf "Connect database : %s (using %s)\n", $db_name, $config->{orm};
@@ -78,6 +79,24 @@ sub _command {
     my $command = shift || '';
     return $ORM->{orm}->$command(@_);
 }
+
+sub rehash {
+    my @methods = methods();
+    for my $method (@methods) {
+        no strict 'refs';
+        if ( !exists ${main::}{$method}  ) {
+            *{"main::$method"} = sub { _command(lc $method, @_ ) };
+        }
+    }
+    $ORM->{methods} = \@methods;
+}
+
+sub methods {
+    my @methods = $ORM->can('methods') ? $ORM->methods : @{$ORM->{methods}};
+    return @methods;
+}
+
+
 
 1;
 __END__
